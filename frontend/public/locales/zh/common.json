@@ -1,0 +1,75 @@
+{
+  "appName": "River-AD",
+  "tagline": "全球优惠，一键直达",
+  "navigation": {
+    "home": "首页",
+    "deals": "优惠",
+    "categories": "分类",
+    "stores": "商店",
+    "about": "关于",
+    "contact": "联系"
+  },
+  "buttons": {
+    "getDeal": "获取优惠",
+    "viewDeal": "查看详情",
+    "searchDeals": "搜索优惠",
+    "loadMore": "加载更多",
+    "backToTop": "回到顶部",
+    "share": "分享",
+    "favorite": "收藏",
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出"
+  },
+  "labels": {
+    "discount": "折扣",
+    "originalPrice": "原价",
+    "salePrice": "现价",
+    "expires": "截止",
+    "freeShipping": "免费配送",
+    "limitedTime": "限时优惠",
+    "exclusive": "独家优惠",
+    "verified": "已验证",
+    "popular": "热门",
+    "new": "新品"
+  },
+  "messages": {
+    "loading": "加载中...",
+    "noResults": "未找到相关优惠",
+    "error": "出现错误，请稍后重试",
+    "success": "操作成功",
+    "networkError": "网络连接错误",
+    "dealExpired": "该优惠已过期",
+    "dealNotAvailable": "该优惠暂不可用"
+  },
+  "search": {
+    "placeholder": "搜索优惠、品牌或商品...",
+    "filters": "筛选条件",
+    "sortBy": "排序方式",
+    "sortOptions": {
+      "newest": "最新",
+      "popular": "最热门",
+      "priceHighToLow": "价格从高到低",
+      "priceLowToHigh": "价格从低到高",
+      "discount": "折扣幅度"
+    },
+    "priceRange": "价格区间",
+    "category": "分类",
+    "store": "商店"
+  },
+  "footer": {
+    "description": "发现全球最佳优惠，为您精心挑选",
+    "quickLinks": "快速链接",
+    "support": "客户支持",
+    "legal": "法律信息",
+    "followUs": "关注我们",
+    "newsletter": "订阅优惠通讯",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "affiliate": "联盟披露"
+  },
+  "meta": {
+    "defaultTitle": "River-AD - 全球优惠精选平台",
+    "defaultDescription": "发现最新海外购物优惠，精选折扣商品，省钱购物专家。支持中英双语，为全球华人提供优质海外购物体验。"
+  }
+}

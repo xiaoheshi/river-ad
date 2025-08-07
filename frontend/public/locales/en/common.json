@@ -1,0 +1,75 @@
+{
+  "appName": "River-AD",
+  "tagline": "Global Deals, One Click Away",
+  "navigation": {
+    "home": "Home",
+    "deals": "Deals",
+    "categories": "Categories",
+    "stores": "Stores",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "buttons": {
+    "getDeal": "Get Deal",
+    "viewDeal": "View Details",
+    "searchDeals": "Search Deals",
+    "loadMore": "Load More",
+    "backToTop": "Back to Top",
+    "share": "Share",
+    "favorite": "Favorite",
+    "login": "Login",
+    "register": "Sign Up",
+    "logout": "Logout"
+  },
+  "labels": {
+    "discount": "Discount",
+    "originalPrice": "Original Price",
+    "salePrice": "Sale Price",
+    "expires": "Expires",
+    "freeShipping": "Free Shipping",
+    "limitedTime": "Limited Time",
+    "exclusive": "Exclusive",
+    "verified": "Verified",
+    "popular": "Popular",
+    "new": "New"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "noResults": "No deals found",
+    "error": "An error occurred, please try again",
+    "success": "Operation successful",
+    "networkError": "Network connection error",
+    "dealExpired": "This deal has expired",
+    "dealNotAvailable": "This deal is not available"
+  },
+  "search": {
+    "placeholder": "Search for deals, brands, or products...",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "sortOptions": {
+      "newest": "Newest",
+      "popular": "Most Popular",
+      "priceHighToLow": "Price: High to Low",
+      "priceLowToHigh": "Price: Low to High",
+      "discount": "Discount"
+    },
+    "priceRange": "Price Range",
+    "category": "Category",
+    "store": "Store"
+  },
+  "footer": {
+    "description": "Discover the best deals worldwide, carefully curated for you",
+    "quickLinks": "Quick Links",
+    "support": "Customer Support",
+    "legal": "Legal",
+    "followUs": "Follow Us",
+    "newsletter": "Subscribe to Deals",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "affiliate": "Affiliate Disclosure"
+  },
+  "meta": {
+    "defaultTitle": "River-AD - Premium International Deals Platform",
+    "defaultDescription": "Discover the latest international shopping deals and premium offers from top brands worldwide. Bilingual support for global shoppers."
+  }
+}

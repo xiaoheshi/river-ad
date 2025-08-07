@@ -1,0 +1,177 @@
+# River-AD Project .gitignore
+
+# 环境变量文件
+.env
+.env.local
+.env.production
+.env.development
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE 文件
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.metadata
+.classpath
+.settings/
+*.launch
+.buildpath
+
+# Maven
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/pom.xml.next
+backend/release.properties
+backend/dependency-reduced-pom.xml
+backend/buildNumber.properties
+backend/.mvn/timing.properties
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+backend/.gradle
+backend/build/
+backend/!gradle/wrapper/gradle-wrapper.jar
+backend/!**/src/main/**/build/
+backend/!**/src/test/**/build/
+
+# Java
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# Node.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/dist/
+frontend/.cache/
+frontend/.nuxt/
+frontend/.output/
+frontend/.vuepress/dist/
+frontend/.serverless/
+frontend/.fusebox/
+frontend/.dynamodb/
+frontend/.tern-port
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/lerna-debug.log*
+frontend/.pnpm-debug.log*
+frontend/.eslintcache
+frontend/.stylelintcache
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+docker/postgres_data/
+docker/redis_data/
+docker/backend_logs/
+
+# 数据库
+*.sqlite
+*.sqlite3
+*.db
+
+# 日志文件
+logs/
+*.log
+log/
+
+# 临时文件
+temp/
+tmp/
+*.tmp
+*.temp
+
+# 测试
+test-results/
+coverage/
+.junit
+
+# 备份文件
+*.bak
+*.backup
+*.old
+*.orig
+
+# 系统文件
+.fuse_hidden*
+.nfs*
+
+# 编译文件
+*.com
+*.exe
+*.out
+*.app
+
+# 包文件
+*.dmg
+*.iso
+
+# Kubernetes
+k8s-secret.yaml
+k8s-config.yaml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# 本地配置文件
+local.properties
+application-local.yml
+application-local.properties
+
+# 证书和密钥文件
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# 上传文件目录
+uploads/
+files/
+images/
+
+# 文档生成文件
+docs/build/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
