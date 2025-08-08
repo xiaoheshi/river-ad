@@ -94,10 +94,7 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [],
   corePlugins: {
     preflight: false, // 避免与Ant Design样式冲突
   },

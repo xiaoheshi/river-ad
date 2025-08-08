@@ -1,0 +1,235 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Ant Design customizations */
+.ant-layout {
+  background: #f9fafb !important;
+}
+
+.ant-layout-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  padding: 0 !important;
+  height: 64px !important;
+  line-height: 64px !important;
+}
+
+.ant-card {
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.ant-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.ant-btn {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.ant-btn-primary {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+.ant-input,
+.ant-select-selector {
+  border-radius: 8px !important;
+  border-color: #d1d5db !important;
+}
+
+.ant-input:hover,
+.ant-select-selector:hover {
+  border-color: #3b82f6 !important;
+}
+
+.ant-input:focus,
+.ant-select-focused .ant-select-selector {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+.ant-pagination-item-active {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.ant-pagination-item-active a {
+  color: #ffffff !important;
+}
+
+/* Custom utility classes */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceGentle {
+  0%, 100% {
+    transform: translateY(-5%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-bounce-gentle {
+  animation: bounceGentle 2s infinite;
+}
+
+/* Responsive design helpers */
+@media (max-width: 640px) {
+  .ant-card-body {
+    padding: 16px !important;
+  }
+  
+  .ant-card-actions {
+    padding: 8px 16px !important;
+  }
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1f2937;
+    --text-color: #f9fafb;
+    --border-color: #374151;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .ant-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .ant-btn-primary {
+    background: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+  }
+  
+  .ant-card {
+    border: 2px solid #000000 !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

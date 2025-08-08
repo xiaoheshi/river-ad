@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: riverad_postgres
+    environment:
+      POSTGRES_DB: riverad
+      POSTGRES_USER: riverad_user
+      POSTGRES_PASSWORD: riverad_pass
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - riverad_network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: riverad_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - riverad_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  # Spring Boot Backend (will be built later)
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: riverad_backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: riverad
+      DB_USER: riverad_user
+      DB_PASSWORD: riverad_pass
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - riverad_network
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+
+  # Next.js Frontend (will be built later)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: riverad_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - riverad_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  riverad_network:
+    driver: bridge
