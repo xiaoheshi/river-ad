@@ -41,44 +41,66 @@ River-AD 是一个中英双语的海外优惠聚合平台，类似于 deals.com/
 ### 环境要求
 - Java 17+
 - Node.js 18+
-- Docker & Docker Compose
+- Docker & Docker Compose (可选)
 - Git
 
 ### 开发环境搭建
 
-1. **克隆项目**
+#### 方式1: 使用快速启动脚本 (推荐)
 ```bash
+# 克隆项目
 git clone https://github.com/xiaoheshi/river-ad.git
 cd river-ad
+
+# 一键启动开发环境
+bash dev-start.sh
 ```
 
-2. **配置环境变量**
+#### 方式2: 手动启动
 ```bash
-cp .env.example .env
-# 编辑 .env 文件，修改相关配置
+# 启动后端
+java FullBackend.java &
+
+# 启动前端
+cd frontend
+npm install
+npm run dev
 ```
 
-3. **启动开发环境**
+#### 方式3: Docker 部署
 ```bash
-cd docker
-docker-compose up -d
-```
+# 生产环境部署
+bash deploy.sh production
 
-4. **查看服务状态**
-```bash
-docker-compose ps
+# 开发环境部署
+bash deploy.sh development
 ```
 
 ### 服务地址
 
 - **前端应用**: http://localhost:3000
 - **后端API**: http://localhost:8080/api
-- **数据库**: localhost:5432
-- **Redis**: localhost:6379
+- **API健康检查**: http://localhost:8080/api/health
+- **数据库**: localhost:5432 (如使用Docker)
+- **Redis**: localhost:6379 (如使用Docker)
+
+### 测试页面
+
+- **完整演示**: http://localhost:3000/full-demo
+- **认证测试**: http://localhost:3000/auth-test  
+- **联盟追踪**: http://localhost:3000/affiliate-test
+- **管理后台**: http://localhost:3000/admin/login
+- **联盟控制台**: http://localhost:3000/affiliate-dashboard
 
 ### 单独开发
 
-#### 后端开发
+#### 后端开发 (简化版)
+```bash
+# 使用完整Java后端服务器
+java FullBackend.java
+```
+
+#### 后端开发 (Spring Boot)
 ```bash
 cd backend
 mvn spring-boot:run
@@ -87,7 +109,7 @@ mvn spring-boot:run
 #### 前端开发
 ```bash
 cd frontend
-npm install
+npm install --no-bin-links  # WSL环境推荐
 npm run dev
 ```
 
@@ -211,12 +233,14 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 ## 🎯 路线图
 
-### v1.0.0 (当前开发中)
+### v1.0.0 (已完成)
 - [x] 项目基础架构
 - [x] 用户认证系统
-- [ ] 优惠信息管理
-- [ ] 搜索和筛选功能
-- [ ] 联盟跟踪系统
+- [x] 优惠信息管理
+- [x] 搜索和筛选功能
+- [x] 联盟跟踪系统
+- [x] 管理员后台
+- [x] 生产环境部署配置
 
 ### v1.1.0 (计划中)
 - [ ] 用户个人中心

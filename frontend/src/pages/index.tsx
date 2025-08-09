@@ -1,289 +1,166 @@
-import React, { useEffect } from 'react';
-import { Layout, Row, Col, Typography, Space, Button, Carousel, Divider } from 'antd';
-import { 
-  SearchOutlined, 
-  FireOutlined, 
-  StarOutlined,
-  TagOutlined,
-  ShopOutlined,
-  RightOutlined
-} from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { Header } from '@/components/layout/Header';
-import { DealCard } from '@/components/deals/DealCard';
-import { DealGrid } from '@/components/deals/DealGrid';
-import { useDealsStore } from '@/store/dealsStore';
-import Head from 'next/head';
+import React, { useState, useEffect } from 'react';
+import { Layout, Card, Row, Col, Button, Spin, Typography } from 'antd';
+import { ShopOutlined, EyeOutlined } from '@ant-design/icons';
 
-const { Content } = Layout;
-const { Title, Paragraph } = Typography;
+const { Header, Content } = Layout;
+const { Title, Text } = Typography;
 
-const HomePage: React.FC = () => {
-  const { t } = useTranslation();
-  const router = useRouter();
-  const { 
-    deals, 
-    popularDeals,
-    categories,
-    stores,
-    isLoading,
-    isLoadingPopular,
-    fetchDeals,
-    fetchPopularDeals,
-    fetchCategories,
-    fetchStores
-  } = useDealsStore();
+interface Deal {
+  id: number;
+  titleZh: string;
+  titleEn: string;
+  salePrice: number;
+  originalPrice: number;
+  discountPercentage: number;
+  store: { name: string };
+  category: { nameZh: string };
+  clickCount: number;
+}
+
+export default function Home() {
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch initial data
-    fetchDeals({ page: 0, size: 8 });
-    fetchPopularDeals(6);
-    fetchCategories();
-    fetchStores();
-  }, [fetchDeals, fetchPopularDeals, fetchCategories, fetchStores]);
+    fetch('http://localhost:8080/api/deals')
+      .then(res => res.json())
+      .then(data => {
+        setDeals(data.content || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('获取数据失败:', err);
+        setLoading(false);
+      });
+  }, []);
 
-  const handleSearch = (value: string) => {
-    if (value.trim()) {
-      router.push(`/search?q=${encodeURIComponent(value.trim())}`);
+  const handleDealClick = async (dealId: number, affiliateUrl: string) => {
+    try {
+      // 联盟追踪
+      await fetch('http://localhost:8080/api/affiliate/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dealId, userId: Math.floor(Math.random() * 1000) })
+      });
+      
+      // 模拟跳转（实际项目中会跳转到真实链接）
+      alert(`🎉 联盟追踪成功！优惠ID: ${dealId}`);
+    } catch (error) {
+      console.error('追踪失败:', error);
     }
   };
 
   return (
-    <>
-      <Head>
-        <title>River-AD - 海外优惠折扣平台</title>
-        <meta name="description" content="发现最新最优惠的海外折扣信息，精选全球热门商品优惠券" />
-        <meta name="keywords" content="优惠,折扣,海外购物,优惠券,deals,discount" />
-      </Head>
-      
-      <Layout className="min-h-screen bg-gray-50">
-        <Header />
-        
-        <Content>
-          {/* Hero Section */}
-          <div className="bg-gradient-to-r from-primary-600 to-secondary-600 py-16 px-4">
-            <div className="max-w-7xl mx-auto text-center">
-              <Title level={1} className="text-white mb-6 text-4xl lg:text-6xl">
-                发现全球最优惠
-              </Title>
-              <Paragraph className="text-primary-100 text-lg lg:text-xl mb-8 max-w-2xl mx-auto">
-                精选海外优质商品优惠信息，让您轻松享受最低价购物体验
-              </Paragraph>
-              
-              {/* Hero Search */}
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white rounded-full p-2 shadow-lg">
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      placeholder={t('deals.searchPlaceholder')}
-                      className="flex-1 px-6 py-4 text-lg border-none outline-none rounded-l-full"
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                          handleSearch((e.target as HTMLInputElement).value);
-                        }
-                      }}
-                    />
-                    <Button
-                      type="primary"
-                      size="large"
-                      icon={<SearchOutlined />}
-                      className="rounded-full px-8 py-4 h-auto"
-                      onClick={() => {
-                        const input = document.querySelector('input[type="text"]') as HTMLInputElement;
-                        handleSearch(input.value);
-                      }}
-                    >
-                      搜索
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Stats */}
-              <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">500+</div>
-                  <div className="text-primary-200">精选优惠</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">50+</div>
-                  <div className="text-primary-200">合作商家</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">5000+</div>
-                  <div className="text-primary-200">用户信赖</div>
-                </div>
-              </div>
-            </div>
+    <Layout className="min-h-screen">
+      <Header style={{ background: '#fff', padding: '0 24px', borderBottom: '1px solid #f0f0f0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', height: '64px' }}>
+          <Title level={2} style={{ margin: 0, color: '#1890ff' }}>
+            🌊 River-AD
+          </Title>
+          <Text style={{ marginLeft: '16px', color: '#666' }}>
+            全球优惠，一键直达
+          </Text>
+        </div>
+      </Header>
+
+      <Content style={{ padding: '24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <Title level={1}>🎯 精选优惠</Title>
+            <Text type="secondary">
+              为您精心挑选的全球优质商品优惠信息
+            </Text>
           </div>
 
-          {/* Popular Deals Section */}
-          <section className="py-16 px-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <FireOutlined className="text-2xl text-red-500" />
-                  <Title level={2} className="mb-0">
-                    {t('common.popular')} 热门优惠
-                  </Title>
-                </div>
-                <Link href="/deals">
-                  <Button type="link" size="large">
-                    查看全部 <RightOutlined />
-                  </Button>
-                </Link>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '64px' }}>
+              <Spin size="large" />
+              <div style={{ marginTop: '16px' }}>
+                <Text>正在加载优惠数据...</Text>
               </div>
-              
-              <DealGrid
-                deals={popularDeals}
-                loading={isLoadingPopular}
-                variant="featured"
-                showCategory={true}
-                showStore={true}
-              />
             </div>
-          </section>
-
-          <Divider />
-
-          {/* Categories Section */}
-          <section className="py-16 px-4 bg-white">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <TagOutlined className="text-2xl text-blue-500" />
-                  <Title level={2} className="mb-0">
-                    热门分类
-                  </Title>
-                </div>
-                <Link href="/categories">
-                  <Button type="link" size="large">
-                    查看全部 <RightOutlined />
-                  </Button>
-                </Link>
-              </div>
-              
-              <Row gutter={[16, 16]}>
-                {categories.slice(0, 8).map((category) => (
-                  <Col key={category.id} xs={12} sm={8} md={6} lg={4} xl={3}>
-                    <Link href={`/categories/${category.slug}`}>
-                      <div className="bg-gray-50 hover:bg-primary-50 rounded-lg p-6 text-center transition-colors cursor-pointer group">
-                        {category.iconUrl && (
-                          <img 
-                            src={category.iconUrl} 
-                            alt={category.nameZh}
-                            className="w-12 h-12 mx-auto mb-3"
-                          />
-                        )}
-                        <h3 className="font-medium text-gray-900 group-hover:text-primary-600">
-                          {category.nameZh}
-                        </h3>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {category.descriptionZh?.slice(0, 30)}...
-                        </p>
+          ) : (
+            <Row gutter={[16, 16]}>
+              {deals.map(deal => (
+                <Col key={deal.id} xs={24} sm={12} lg={8} xl={6}>
+                  <Card
+                    hoverable
+                    actions={[
+                      <Button
+                        key="view"
+                        type="primary"
+                        icon={<EyeOutlined />}
+                        onClick={() => handleDealClick(deal.id, `https://example.com/deal/${deal.id}`)}
+                      >
+                        获取优惠
+                      </Button>
+                    ]}
+                    style={{ height: '100%' }}
+                  >
+                    <div style={{ height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <Title level={4} style={{ fontSize: '16px', lineHeight: '1.4', marginBottom: '8px' }}>
+                          {deal.titleZh}
+                        </Title>
+                        <Text type="secondary" style={{ fontSize: '12px', display: 'block', marginBottom: '12px' }}>
+                          {deal.titleEn}
+                        </Text>
                       </div>
-                    </Link>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          </section>
-
-          {/* Latest Deals Section */}
-          <section className="py-16 px-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <StarOutlined className="text-2xl text-yellow-500" />
-                  <Title level={2} className="mb-0">
-                    最新优惠
-                  </Title>
-                </div>
-                <Link href="/deals">
-                  <Button type="link" size="large">
-                    查看全部 <RightOutlined />
-                  </Button>
-                </Link>
-              </div>
-              
-              <DealGrid
-                deals={deals}
-                loading={isLoading}
-                showCategory={true}
-                showStore={true}
-              />
-            </div>
-          </section>
-
-          {/* Stores Section */}
-          <section className="py-16 px-4 bg-white">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <ShopOutlined className="text-2xl text-green-500" />
-                  <Title level={2} className="mb-0">
-                    热门商店
-                  </Title>
-                </div>
-                <Link href="/stores">
-                  <Button type="link" size="large">
-                    查看全部 <RightOutlined />
-                  </Button>
-                </Link>
-              </div>
-              
-              <Row gutter={[16, 16]}>
-                {stores.slice(0, 12).map((store) => (
-                  <Col key={store.id} xs={12} sm={8} md={6} lg={4} xl={3}>
-                    <Link href={`/stores/${store.slug}`}>
-                      <div className="bg-gray-50 hover:bg-primary-50 rounded-lg p-4 text-center transition-colors cursor-pointer group border-2 border-transparent hover:border-primary-200">
-                        {store.logoUrl && (
-                          <img 
-                            src={store.logoUrl} 
-                            alt={store.name}
-                            className="w-16 h-16 mx-auto mb-3 object-contain"
-                          />
-                        )}
-                        <h3 className="font-medium text-gray-900 group-hover:text-primary-600">
-                          {store.name}
-                        </h3>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {store.description?.slice(0, 40)}...
-                        </p>
+                      
+                      <div>
+                        <div style={{ marginBottom: '8px' }}>
+                          <Text strong style={{ fontSize: '18px', color: '#f5222d' }}>
+                            ${deal.salePrice}
+                          </Text>
+                          {deal.originalPrice && (
+                            <>
+                              <Text
+                                delete
+                                type="secondary"
+                                style={{ marginLeft: '8px', fontSize: '14px' }}
+                              >
+                                ${deal.originalPrice}
+                              </Text>
+                              <Text
+                                strong
+                                style={{ 
+                                  marginLeft: '8px', 
+                                  color: '#f5222d', 
+                                  fontSize: '12px',
+                                  background: '#fff1f0',
+                                  padding: '2px 6px',
+                                  borderRadius: '4px'
+                                }}
+                              >
+                                -{Math.round(deal.discountPercentage)}%
+                              </Text>
+                            </>
+                          )}
+                        </div>
+                        
+                        <div style={{ fontSize: '12px', color: '#999' }}>
+                          <ShopOutlined style={{ marginRight: '4px' }} />
+                          {deal.store.name} | {deal.category.nameZh}
+                        </div>
+                        
+                        <div style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
+                          {deal.clickCount} 人已获取
+                        </div>
                       </div>
-                    </Link>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          </section>
+                    </div>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )}
 
-          {/* CTA Section */}
-          <section className="py-16 px-4 bg-gradient-to-r from-secondary-600 to-primary-600">
-            <div className="max-w-4xl mx-auto text-center">
-              <Title level={2} className="text-white mb-4">
-                准备好开始省钱了吗？
-              </Title>
-              <Paragraph className="text-secondary-100 text-lg mb-8">
-                加入我们，获取最新优惠信息和独家折扣码
-              </Paragraph>
-              <Space size="large">
-                <Button type="default" size="large" onClick={() => router.push('/deals')}>
-                  浏览所有优惠
-                </Button>
-                <Button type="primary" size="large" onClick={() => router.push('/auth')}>
-                  免费注册
-                </Button>
-              </Space>
+          {!loading && deals.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '64px' }}>
+              <Text type="secondary">暂无优惠数据，请确保后端服务正在运行</Text>
             </div>
-          </section>
-        </Content>
-      </Layout>
-    </>
+          )}
+        </div>
+      </Content>
+    </Layout>
   );
-};
-
-export default HomePage;
+}
